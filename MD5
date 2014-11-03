@@ -1,0 +1,13 @@
+0d38f7c2ee4a2e649309d6d9d7ff7295 *DESCRIPTION
+d32239bcb673463ab874e80d47fae504 *LICENSE
+0d517ec5e9048a21a79bb830c2ad480f *NAMESPACE
+91975e739a67947d28284b2bf34b56de *R/defineClass.R
+d2f1d285cabc2a1e8dc0b16462452368 *R/oom.R
+11508618eb06c2d7105e59cc651a695b *R/public-interfaces.R
+e3fc259f3e4269af8e3c76ffa5e80cae *man/defineClass.Rd
+082fd3c83d78cdd6e60306877c2e43b7 *man/oom.Rd
+09f8a1bf3b2d6919bfc1f7a138a4cff7 *tests/testthat.R
+ef4d401d7bfb659806df73616c445b44 *tests/testthat/test-basics.R
+07ea142ef1123dbe35f152282dbfbce0 *tests/testthat/test-inheritance.R
+24802d2ea370b2696afc289877b7d58e *tests/testthat/test-publicInterface.R
+3899ab8e5ff7e060bf846d07a0fa01a7 *tests/testthat/test-self.R
