@@ -1,3 +1,25 @@
+Version 0.1.0
+
+- CRAN release
+
+Version 0.0.6
+
+- Handling of fields inheriting from 'environment'
+
+Version 0.0.5
+
+- Use the method public instead of publicFunction and publicValue
+- Renaming of class oom to aoos
+- Vignette: Introduction
+
+Version 0.0.4
+
+- Can define function 'init' which will be called if arguments are supplied to the constructor.
+- defineClass has new side effect: S4 method for 'initialize'
+- defineClass lost side effect: constructor is not assigned to the class-name
+- Constructor functions can be named differnet from the class-name
+- S4-constructor 'new' can be used to create a new object
+
 Version 0.0.3
 
 - Access self inside class definitions also for private objects.

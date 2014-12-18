@@ -1,20 +1,14 @@
 context("Basics:")
-test_that("publicValue", {
-  x <- publicValue()
-  expect_is(x(), "NULL")
-  expect_equal(x(1), 1)
-  expect_equal(x(), 1)
-})
 
 test_that("class-markup", {
   
   suppressWarnings(
     test <- defineClass("test", {
       .privateObject <- NULL
-      publicObject <- publicValue("BAM!")
-      get <- publicFunction(function() .privateObject)
-      set <- publicFunction(function(value) .privateObject <<- value)
-      doSomethingWithPublicObject <- publicFunction(function() publicObject())
+      publicObject <- public("BAM!")
+      get <- public(function() .privateObject)
+      set <- public(function(value) .privateObject <<- value)
+      doSomethingWithPublicObject <- public(function() publicObject())
     })
     )
   
@@ -38,14 +32,15 @@ test_that("class-markup", {
 
 test_that("default-call", {
   expect_is(suppressWarnings(defineClass("tmp")), "function")
-  expect_true(exists("tmp"))
+  expect_true(isClass("tmp"))
+  removeClass("tmp")
 })
 
 test_that("privacy works", {
-  suppressWarnings({
+  class <- suppressWarnings({
     defineClass("class", {
       private <- 2
-      get <- publicFunction(function() 1)
+      get <- public(function() 1)
     })
   })
   
@@ -57,3 +52,42 @@ test_that("privacy works", {
   
   removeClass("class")
 })
+
+
+test_that("'init' function is executed", {
+  test <- suppressWarnings({
+    defineClass("test", {
+      
+      name <- public("")
+      
+      init <- function(name) {
+        self$name(name)
+      } 
+      
+    })})
+  
+  expect_equal(test("jaj")$name(), "jaj")
+  
+  removeClass("test")
+})
+
+test_that("Naming of constructor functions", {
+  constTest <- suppressWarnings({
+    defineClass("test", {
+      x <- public()
+      })
+  })
+  
+  tmp <- constTest()
+  tmp1 <- new("test")
+  
+  tmp$x(2)
+  
+  expect_is(tmp, "test")
+  expect_is(tmp1, "test")
+  expect_is(tmp1$x(), "NULL")
+  expect_equal(tmp$x(), 2)
+  
+  removeClass("test")
+})
+
