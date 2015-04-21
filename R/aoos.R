@@ -14,7 +14,6 @@ setMethod("show", signature = c(object = "aoos"),
             cat("Class: ", class(object), "\n", sep = "")
             cat("public member:\n")
             lapply(ls(object), function(n) cat(" ", n, "\n"))
-            #             print(env.profile(as.environment(object)))
           })
 
 #' @rdname aoos
@@ -29,11 +28,6 @@ setMethod("$", signature = c(x = "aoos"),
             
             getMember(name, x, privacy)
             
-#             if(inherits(member, "publicValue")) {
-#               member()
-#             } else {
-#               member
-#             }
           })
 
 envirSearch <- function(envList = list(environment())) {
@@ -56,7 +50,6 @@ getMember <- function(name, object, privacy = FALSE) {
   }
 }
 
-
 #' @rdname aoos
 #' @export
 #' @param value value to assign to. Will throw an error.
@@ -66,17 +59,12 @@ setMethod("$<-", signature = c(x = "aoos"),
             privacy <- !any(sapply(envirSearch(list(parent.frame())), 
                                    identical, y = parent.env(x)))
             
-            #             member <- getMember(name, x, privacy)
-            
-            #             if(inherits(member, "publicValue")) {
-            #               member(value)
-            #             } else {
             if(privacy) {
               stop("If you need to extend object, modify class definition.")
             } else {
               assign(name, value = value, envir = parent.env(x))
             }
-            #             }
+            
             x
           })
 
@@ -86,7 +74,9 @@ setMethod("$<-", signature = c(x = "aoos"),
 #' @export
 setMethod("summary", signature = c(object = "aoos"),
           function(object, ...) {
-            envSize(parent.env(object))
+            out <- envSize(parent.env(object))
+            rownames(out) <- NULL
+            out
           })
 
 envSize <- function (env) {
@@ -99,15 +89,21 @@ envSize <- function (env) {
   obj.mode <- napply(names, mode)
   obj.type <- ifelse(is.na(obj.class), obj.mode, obj.class)
   obj.size <- napply(names, object.size)
-  
+
   obj.subsizes <- napply(names, function(x) {
-    if(inherits(x, "publicFunction") && !identical(environment(x), env)) 
+    if(inherits(x, "publicFunction") && !identical(environment(x), env))
       envSize(environment(x))
   })
-  
   obj.subsizes <- do.call(rbind, obj.subsizes)
+  obj.subsizes$Name <- rownames(obj.subsizes)
   
-  out <- rbind(data.frame(Type = obj.type, "Size.Mib" = round(obj.size / (1024^2), 1)), obj.subsizes)
-  out[order(rownames(out), out$Type), ]
+  out <- rbind(data.frame(
+    Name = names(obj.type),
+    Type = obj.type, 
+    "Size.Mib" = round(obj.size / (1024^2), 1),
+    stringsAsFactors = FALSE), 
+    obj.subsizes)
   
+  out[order(out$Name, out$Type), ]
+    
 }

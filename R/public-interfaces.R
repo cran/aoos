@@ -2,11 +2,20 @@ setClass("public", contains = "VIRTUAL")
 setClass("publicFunction", contains = c("public", "function"))
 setClass("publicValue", contains = "publicFunction")
 setClass("publicEnv", contains = c("public", "list"))
+setClass("private", slots = c(.Data = "ANY"))
 
 setGeneric("getPublicRepresentation", function(obj) obj)
 setMethod("getPublicRepresentation", "publicEnv", function(obj) {
   obj@.Data[[1]]
 })
+
+#' @rdname defineClass
+#' @export
+setGeneric("private", function(x) new("private", x))
+
+#' @rdname defineClass
+#' @export
+setMethod("private", "public", function(x) x)
 
 #' Constructors for public members
 #' 
@@ -15,6 +24,7 @@ setMethod("getPublicRepresentation", "publicEnv", function(obj) {
 #' @param x a default value
 #' @param validity an optional validity function for the set method. Returns TRUE or FALSE.
 #' @param fun function definition
+#' @param name name of member in refernece object
 #' 
 #' @rdname publicInterface
 #' @export publicFunction
@@ -40,6 +50,13 @@ publicValue <- function(x = NULL, validity = function(x) TRUE) {
   })
 }
 
+#' @rdname publicInterface
+setMethod("$", "publicEnv", function(x, name) {
+  mc <- match.call()
+  mc[[2]] <- quote(x@.Data[[1]])
+  eval(mc)
+})
+
 #' @param x an object made public
 #' @param validity function to check the validity of an object
 #' 
@@ -60,3 +77,16 @@ setGeneric("public", function(x = NULL, validity = function(x) TRUE) {
 setMethod("public", c(x = "function"), function(x, validity) {
   publicFunction(x)
 })
+
+#' @rdname defineClass
+#' @export
+setMethod("public", c(x = "private"), function(x, validity) {
+  x
+})
+
+#' @rdname defineClass
+#' @export
+setMethod("public", c(x = "public"), function(x, validity) {
+  x
+})
+

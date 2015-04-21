@@ -5,7 +5,7 @@ test_that("Inheritance", {
   suppressWarnings({
     parent <- defineClass("parent", {
       publicMember <- publicValue("?!:")
-      privateMember <- NULL
+      privateMember <- private(NULL)
       get <- publicFunction(function() paste(publicMember(), privateMember))
     })
     
@@ -24,40 +24,36 @@ test_that("Inheritance", {
   expect_equal(tmp$set("s"), "s")
   expect_equal(tmp$get(), "?!: s")
   
-  removeClass("parent")
-  removeClass("child")
 })
 
 test_that("Replacing fields I", {
   
   suppressWarnings({
     parent <- defineClass("parent", {
-      privateMember <- NULL
+      privateMember <- private(NULL)
       get <- publicFunction(function() privateMember)
     })
     
     child <- defineClass("child", contains = "parent", {
-      privateMember <- "value"
+      privateMember <- private("value")
     })  
   })
     
   tmp <- child()
-  expect_equal(tmp$get(), "value")
+  expect_equal(tmp$get()@.Data, "value")
   
-  removeClass("parent")
-  removeClass("child")
 })
 
 test_that("Replacing fields II", {
   
   suppressWarnings({
     parent <- defineClass("parent", {
-      get <- publicFunction(function() foo())
-      foo <- publicFunction(function() 1)
+      get <- function() foo()
+      foo <- function() 1
     })
     
     child <- defineClass("child", contains = "parent", {
-      foo <- publicFunction(function() 2)
+      foo <- function() 2
     })
   })
     
@@ -65,6 +61,30 @@ test_that("Replacing fields II", {
   expect_equal(tmp$foo(), 2)
   expect_equal(tmp$get(), 2)
   
-  removeClass("parent")
-  removeClass("child")
+})
+
+test_that("Inheritance of standard S4 classes", {
+  
+  setClass("Parent", contains = "VIRTUAL")
+  
+  setGeneric("testMethod", function(x) "default")
+  setMethod("testMethod", signature = "Parent", function(x) 1)
+  
+  suppressWarnings({
+    
+    child1 <- defineClass("Child1", contains = "Parent", {
+      get <- function() foo()
+      foo <- function() 1
+    })
+    
+    child2 <- defineClass("Child2", contains = "Child1", { })
+    
+  })
+  
+  tmp1 <- child1()
+  tmp2 <- child2()
+  
+  expect_equal(testMethod(tmp1), 1)
+  expect_equal(testMethod(tmp2), 1)
+  
 })
