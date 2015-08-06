@@ -23,7 +23,7 @@ ann$personName()
 ann$personName("not Ann")
 ann$greet()
 
-## ----, eval=FALSE--------------------------------------------------------
+## ---- eval=FALSE---------------------------------------------------------
 #  Person <- defineClass("Person", {
 #  
 #    .personName <- "" # .personName is private
