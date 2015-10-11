@@ -1,3 +1,48 @@
+Version 0.4.0
+- CRAN release
+
+Version 0.3.9
+- try handler for setClassUnion in type expressions.
+
+Version 0.3.8
+- New function stripSelf to use retList without the attribute .self.
+
+Version 0.3.7
+- Bugfix for roxygen2 parser functions. The formals of a S4 method have not been
+correctly identified.
+
+Version 0.3.6
+- Bugfix in retList: make ".private" public was not possible.
+
+Version 0.3.5
+- %m% now supports 'type expressions', i.e. the signature is expressed as
+'varName ~ typeName'. Using '=' for specifying the signature is not supported
+anymore.
+- %type% supports 'type expressions', i.e. classes of slots can be expressed
+without default values in the type constructor.
+- type expressions: name ~ type, where a type is the unquoted name of a type
+/ S4-Class or a class union of the form 'type1 | type2 [| ...]'
+
+Version 0.3.4
+- The class Show is not a reference class anymore but an ordinary S4 class. This
+should not make a difference since it is virtual.
+
+Version 0.3.3
+- Linking the interfaces to the S4 class system to the roxygen2 documentation
+facilities. It is now possible to document generics, methods and types in the
+same way as you would using only the methods package.
+- New functions parser_%m%, parser_%g% and parser_%type% to be used by roxygen2
+
+Version 0.3.2
+- New wrapper around setClass: %types% to be used as a subset of S4 classes. It
+mimics the pattern of "setClass(...); setMethod("initialize", ...)" and captures
+most of the needed features.
+
+Version 0.3.1
+- New wrappers (%g% and %m%) around setGeneric and setMethod from the methods
+package. They provide an alternative approach to define (S4) generic functions
+and methods putting an emphasis on readability.
+
 Version 0.3.0
 - CRAN release
 
@@ -14,11 +59,13 @@ Version 0.2.4
 - retList has now an object called .self referring to itself.
 
 Version 0.2.3
-- retList can now 'inherit' from another list. An extra argument superEnv can be used to really extend a class definition in this framework.
+- retList can now 'inherit' from another list. An extra argument superEnv can be
+used to really extend a class definition in this framework.
 - retList has new arguments to control inheritance. 
 
 Version 0.2.2
-- New classes Infix and Print which enable encapsulated definitions of infix operators and print methods for S3 classes.
+- New classes Infix and Print which enable encapsulated definitions of infix
+operators and print methods for S3 classes.
 
 Version 0.2.1
 - New functions retList and funNames to work with closures as objects
@@ -39,13 +86,16 @@ Version 0.1.5
 
 Version 0.1.4
 - Bugfix in Class when constructing refClass with empty fields
-- Updated behaviour of aoos classes. Leading '.' indicates a private member, all other names refer to public member
+- Updated behaviour of aoos classes. Leading '.' indicates a private member, all
+other names refer to public member
 - New function private to declare a member to be private regardless of name
-- Initialise method for aoos classes now properly passes arguments to init, so new can be used for initialisation
+- Initialise method for aoos classes now properly passes arguments to init, so
+new can be used for initialisation
 - Updated vignettes
 
 Version 0.1.3
-- New class 'Private' to add restricted access to methods and fields of reference classes
+- New class 'Private' to add restricted access to methods and fields of
+reference classes
 
 Version 0.1.2
 - New function Class, which is a wrapper around setRefClass
@@ -70,7 +120,8 @@ Version 0.0.5
 
 Version 0.0.4
 
-- Can define function 'init' which will be called if arguments are supplied to the constructor.
+- Can define function 'init' which will be called if arguments are supplied to
+the constructor.
 - defineClass has new side effect: S4 method for 'initialize'
 - defineClass lost side effect: constructor is not assigned to the class-name
 - Constructor functions can be named differnet from the class-name
