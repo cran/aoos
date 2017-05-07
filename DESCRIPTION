@@ -1,8 +1,8 @@
 Package: aoos
 Type: Package
 Title: Another Object Orientation System
-Version: 0.4.0
-Date: 2015-10-11
+Version: 0.5.0
+Date: 2017-05-06
 Authors@R: person("Sebastian", "Warnholz", role = c("aut", "cre"),
                   email = "wahani@gmail.com")
 BugReports: https://github.com/wahani/aoos/issues
@@ -13,8 +13,8 @@ Description: Another implementation of object-orientation in R. It provides
     and the other one makes it more convenient to work with lists as objects.
 Depends: methods, R(>= 3.2.0)
 Imports: magrittr, utils, roxygen2
-License: GPL-3 | file LICENSE
-Suggests: testthat, knitr, microbenchmark, R6
+License: MIT + file LICENSE
+Suggests: testthat, knitr, rbenchmark, R6, rmarkdown
 Encoding: UTF-8
 VignetteBuilder: knitr
 ByteCompile: TRUE
@@ -24,9 +24,10 @@ Collate: 'DC-Binary.R' 'DC-Show.R' 'DC-aoos.R' 'DC-defineClass.R'
         'S4-generics.R' 'S4-generics-test.R' 'S4-roxygen-parser.R'
         'S4-types.R' 'S4RC-Accessor.R' 'S4RC-Private.R'
         'S4RC-defineRefClass.R'
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2015-10-11 15:04:37 UTC; sebastian
+Packaged: 2017-05-06 18:26:45 UTC; sebastian
 Author: Sebastian Warnholz [aut, cre]
 Maintainer: Sebastian Warnholz <wahani@gmail.com>
 Repository: CRAN
-Date/Publication: 2015-10-11 17:19:25
+Date/Publication: 2017-05-07 05:33:32 UTC
